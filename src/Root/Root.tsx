@@ -5,15 +5,43 @@ import AppForm from '../Form/Form';
 import Conversion from '../Conversion/Conversion';
 import Banner from '../Banner/Banner';
 import Ribbon from '../Ribbon/Ribbon';
+import Footer from '../Footer/Footer';
+import History from '../History/History';
 
-class Root extends React.Component<{}, { baseCur: string, targetCur: string, amount: string, conAmount: string }> {
+type rootState = {
+  baseCur: string,
+  targetCur: string,
+  amount: string,
+  conAmount: string,
+  histCur: {
+    baseCur: string,
+    targetCur: string
+  }[]
+}
+
+class Root extends React.Component<{}, { roostate: rootState }> {
   constructor(props: any | Readonly<{}>) {
     super(props);
     this.state = {
-      baseCur: 'AED',
-      targetCur: 'AED',
-      amount: '1.00',
-      conAmount: '1.00'
+      roostate: {
+        baseCur: 'AED',
+        targetCur: 'AED',
+        amount: '1.0000',
+        conAmount: '1.0000',
+        histCur: [{
+          baseCur: '',
+          targetCur: '',
+        }, {
+          baseCur: '',
+          targetCur: '',
+        }, {
+          baseCur: '',
+          targetCur: '',
+        }, {
+          baseCur: '',
+          targetCur: '',
+        }]
+      }
     };
 
     this.process = this.process.bind(this);
@@ -22,10 +50,25 @@ class Root extends React.Component<{}, { baseCur: string, targetCur: string, amo
   process(state: any) {
     Conversion((conAmount: string) => {
       this.setState({
-        baseCur: state.baseCur,
-        targetCur: state.targetCur,
-        amount: state.amount,
-        conAmount: conAmount
+        roostate: {
+          baseCur: state.baseCur,
+          targetCur: state.targetCur,
+          amount: state.amount,
+          conAmount: conAmount,
+          histCur: [{
+            baseCur: state.baseCur,
+            targetCur: state.targetCur
+          }, {
+            baseCur: this.state.roostate.histCur[0].baseCur,
+            targetCur: this.state.roostate.histCur[0].targetCur
+          }, {
+            baseCur: this.state.roostate.histCur[1].baseCur,
+            targetCur: this.state.roostate.histCur[1].targetCur
+          }, {
+            baseCur: this.state.roostate.histCur[2].baseCur,
+            targetCur: this.state.roostate.histCur[2].targetCur
+          }]
+        }
       });
     }, state.baseCur, state.targetCur, state.amount);
   }
@@ -35,8 +78,10 @@ class Root extends React.Component<{}, { baseCur: string, targetCur: string, amo
       <div>
         <Ribbon />
         <Banner />
-        <Display conAmount={this.state.conAmount}/>
-        <AppForm process={this.process} state={this.state}/>
+        <Display conAmount={this.state.roostate.conAmount}/>
+        <AppForm process={this.process} state={this.state.roostate}/>
+        <History histcur={this.state.roostate.histCur} />
+        <Footer />
       </div>
     );
   }

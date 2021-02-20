@@ -6,12 +6,12 @@ const Ribbon: React.FC = () => (
   <div className={styles.Ribbon}>
     <Container fluid>
       <Row>
-        <Col xs="12" lg="10">
+        <Col xs="12" sm="10" lg="8">
           <div className={styles.Ribbontext}>
             Currency Converter Applicaton
           </div>
         </Col>
-        <Col xs="12" lg="2">
+        <Col xs="auto" sm="2" lg="4">
           <Image src="logo192.png" className={styles.Ribbonlogo} />
         </Col>
       </Row>

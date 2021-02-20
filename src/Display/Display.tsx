@@ -20,7 +20,7 @@ class Display extends React.Component<{conAmount: string}, {}> {
                     Target Amount
                   </InputGroup.Text>
                 </InputGroup.Prepend>
-                <Form.Control as="input" readOnly className="text-right" value={this.props.conAmount}></Form.Control>
+                <Form.Control as="input" title="Desired Amount" readOnly className="text-right" value={this.props.conAmount}></Form.Control>
               </InputGroup>
             </Form.Group>
           </Col>

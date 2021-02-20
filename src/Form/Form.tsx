@@ -2,13 +2,21 @@ import React from 'react';
 //import styles from './Form.module.css';
 import { Form, InputGroup, Button, Container, Row, Col } from 'react-bootstrap';
 
-class AppForm extends React.Component<{process: any, state: any}, {baseCur: string, targetCur: string, amount: string}> {
+type FormState = {
+  baseCur: string,
+  targetCur: string,
+  amount: string
+}
+
+class AppForm extends React.Component<{process: any, state: any}, {formstate: FormState}> {
   constructor(props: any) {
     super(props);
     this.state = {
-      baseCur: this.props.state.baseCur,
-      targetCur: this.props.state.targetCur,
-      amount: this.props.state.amount
+      formstate: {
+        baseCur: this.props.state.baseCur,
+        targetCur: this.props.state.targetCur,
+        amount: this.props.state.amount
+      }
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -19,25 +27,37 @@ class AppForm extends React.Component<{process: any, state: any}, {baseCur: stri
     /* alert('A name was modified: ' + event.target.value);*/
     if (event.target.id === 'Form.ControlSelect1') {
       this.setState({
-        baseCur: event.target.value
+        formstate: {
+          baseCur: event.target.value,
+          targetCur: this.state.formstate.targetCur,
+          amount: this.state.formstate.amount
+        }
       }, () => {
-        this.props.process(this.state);
+        this.props.process(this.state.formstate);
       });
     } else if (event.target.id === 'Form.ControlSelect2') {
       this.setState({
-        targetCur: event.target.value
+        formstate: {
+          baseCur: this.state.formstate.baseCur,
+          targetCur: event.target.value,
+          amount: this.state.formstate.amount
+        }
       }, () => {
-        this.props.process(this.state);
+        this.props.process(this.state.formstate);
       });
     } else if (event.target.id === 'Form.Input'){
       this.setState({
-        amount: event.target.value
+        formstate: {
+          baseCur: this.state.formstate.baseCur,
+          targetCur: this.state.formstate.targetCur,
+          amount: event.target.value
+        }
       });
     }
   }
 
   handleSubmit(event: { preventDefault: () => void }) {
-    this.props.process(this.state);
+    this.props.process(this.state.formstate);
     event.preventDefault();
   }
 

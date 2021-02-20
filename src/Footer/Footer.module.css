@@ -1,0 +1,52 @@
+.Footer {
+    color: #fff;
+    font-size: small;
+    font-weight: 400;
+    height: 25px;
+    background-color:#007bff;
+}
+
+.FootertextDesignby {
+    text-align: right;
+}
+
+.FootertextName {
+    float: left;
+    transition: 0.1s;
+}
+
+.FootertextName a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.FootertextName:hover {
+    transform: scale(1.05, 1.01);
+}
+
+@media screen and (max-width: 600px) {
+    .Footer {
+        margin: 1.2em 0em 0em 0em;
+        padding: 0.8em 0em;
+        height: 45px;
+    }
+
+    .FootertextDesignby {
+        float: right;
+    }
+    
+    .FootertextName {
+        color: #fff;
+        float: left;
+    }
+    
+    .FootertextName a {
+        text-decoration: none;
+        transition: 0.1s;
+    }
+    
+    .FootertextName hover {
+        transform: scale(1.05, 1.01);
+    }
+
+}
