@@ -12,7 +12,7 @@ class Display extends React.Component<{conAmount: string}, {}> {
     return (
       <Container fluid>
         <Row className="justify-content-center pt-4 pb-5">
-          <Col xs="10" lg="4">
+          <Col xs="12" lg="10">
             <Form.Group controlId="Form.Display">
               <InputGroup>
                 <InputGroup.Prepend>

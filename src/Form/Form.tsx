@@ -66,7 +66,7 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
       <Container fluid className="text-center">
         <Form onSubmit={this.handleSubmit}>
         <Row className="justify-content-center">
-          <Col xs="10" lg="4">
+          <Col xs="12" lg="10">
             <Form.Group controlId="Form.Input">
               <InputGroup>
                 <InputGroup.Prepend>
@@ -80,7 +80,7 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
           </Col>
         </Row>
         <Row className="justify-content-center">
-          <Col xs="10" lg="3">
+          <Col xs="12" lg="5">
             <Form.Group controlId="Form.ControlSelect1">
               <Form.Label>Base Currency</Form.Label>
               <Form.Control title="Select Base Currency" as="select" onChange={this.handleChange}>
@@ -255,7 +255,7 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
               </Form.Control>
             </Form.Group>
           </Col>
-          <Col xs="10" lg="3">
+          <Col xs="12" lg="5">
             <Form.Group controlId="Form.ControlSelect2">
               <Form.Label>Target Currency</Form.Label>
               <Form.Control title="Select Target Currency" as="select" onChange={this.handleChange}>
@@ -431,7 +431,7 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
             </Form.Group>
           </Col>
         </Row>
-        <Row className="justify-content-md-center">
+        <Row className="justify-content-md-center pt-4">
           <Col md="auto">
             <Button variant="primary" type="submit">
               Get Conversion

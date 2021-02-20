@@ -17,8 +17,8 @@ class History extends React.Component<{histcur: HistCur[]}, {}> {
     return (
       <Container>
         <Row className="justify-content-center pt-4 pb-5">
-          <Col xs="10" lg="8">
-          <Table striped borderless hover>
+          <Col xs="12" lg="12">
+          <Table striped bordered hover>
             <thead>
               <tr>
                 <th>#</th>

@@ -1,5 +1,6 @@
 import React from 'react';
 //import styles from './Root.module.css';
+import { Container, Row, Col, Card } from 'react-bootstrap';
 import Display from '../Display/Display';
 import AppForm from '../Form/Form';
 import Conversion from '../Conversion/Conversion';
@@ -78,9 +79,31 @@ class Root extends React.Component<{}, { roostate: rootState }> {
       <div>
         <Ribbon />
         <Banner />
-        <Display conAmount={this.state.roostate.conAmount}/>
-        <AppForm process={this.process} state={this.state.roostate}/>
-        <History histcur={this.state.roostate.histCur} />
+        <Container>
+          <Row className="justify-content-center">
+            <Col xs="12" lg="8">
+              <Card style={{margin: '1em auto'}}>
+                <Card.Body>
+                  <Card.Title style={{fontSize: '2rem'}}>Convert Now!</Card.Title>
+                    <hr />
+                    <Display conAmount={this.state.roostate.conAmount}/>
+                    <AppForm process={this.process} state={this.state.roostate}/>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+          <Row className="justify-content-center">
+            <Col xs="12" lg="8">
+              <Card style={{margin: '1em auto'}}>
+                <Card.Body>
+                  <Card.Title style={{fontSize: '2rem', }}>Used Conversions</Card.Title>
+                    <hr />
+                    <History histcur={this.state.roostate.histCur} />
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
         <Footer />
       </div>
     );
