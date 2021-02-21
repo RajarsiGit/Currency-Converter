@@ -84,7 +84,7 @@ class Root extends React.Component<{}, { roostate: rootState }> {
             <Col xs="12" lg="8">
               <Card style={{margin: '1em auto'}}>
                 <Card.Body>
-                  <Card.Title style={{fontSize: '2rem'}}>Convert Now!</Card.Title>
+                  <Card.Title style={{fontSize: '2rem'}}>Convert Your Currency Now</Card.Title>
                     <hr />
                     <Display conAmount={this.state.roostate.conAmount}/>
                     <AppForm process={this.process} state={this.state.roostate}/>
