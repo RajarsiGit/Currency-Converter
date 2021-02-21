@@ -10,18 +10,12 @@ const Banner: React.FC = () => (
           <Carousel>
             <Carousel.Item>
               <Image src="banner1.jpg" fluid />
-              <Carousel.Caption>
-              </Carousel.Caption>
             </Carousel.Item>
             <Carousel.Item>
               <Image src="banner2.jpg" fluid />
-              <Carousel.Caption>
-              </Carousel.Caption>
             </Carousel.Item>
             <Carousel.Item>
               <Image src="banner3.jpg" fluid />
-              <Carousel.Caption>
-              </Carousel.Caption>
             </Carousel.Item>
           </Carousel>
         </Col>
