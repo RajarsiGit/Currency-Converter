@@ -15,8 +15,8 @@ type rootState = {
   amount: string,
   conAmount: string,
   histCur: {
-    baseCur: string,
-    targetCur: string
+    base: string,
+    target: string
   }[]
 }
 
@@ -30,17 +30,17 @@ class Root extends React.Component<{}, { roostate: rootState }> {
         amount: '1.0000',
         conAmount: '1.0000',
         histCur: [{
-          baseCur: '',
-          targetCur: '',
+          base: '',
+          target: '',
         }, {
-          baseCur: '',
-          targetCur: '',
+          base: '',
+          target: '',
         }, {
-          baseCur: '',
-          targetCur: '',
+          base: '',
+          target: '',
         }, {
-          baseCur: '',
-          targetCur: '',
+          base: '',
+          target: '',
         }]
       }
     };
@@ -49,25 +49,25 @@ class Root extends React.Component<{}, { roostate: rootState }> {
   }
 
   process(state: any) {
-    Conversion((conAmount: string) => {
+    Conversion(({amount, value}) => {
       this.setState({
         roostate: {
           baseCur: state.baseCur,
           targetCur: state.targetCur,
           amount: state.amount,
-          conAmount: conAmount,
+          conAmount: amount,
           histCur: [{
-            baseCur: state.baseCur,
-            targetCur: state.targetCur
+            base: '1.0000 ' + state.baseCur,
+            target: value + ' ' + state.targetCur
           }, {
-            baseCur: this.state.roostate.histCur[0].baseCur,
-            targetCur: this.state.roostate.histCur[0].targetCur
+            base: this.state.roostate.histCur[0].base,
+            target: this.state.roostate.histCur[0].target
           }, {
-            baseCur: this.state.roostate.histCur[1].baseCur,
-            targetCur: this.state.roostate.histCur[1].targetCur
+            base: this.state.roostate.histCur[1].base,
+            target: this.state.roostate.histCur[1].target
           }, {
-            baseCur: this.state.roostate.histCur[2].baseCur,
-            targetCur: this.state.roostate.histCur[2].targetCur
+            base: this.state.roostate.histCur[2].base,
+            target: this.state.roostate.histCur[2].target
           }]
         }
       });

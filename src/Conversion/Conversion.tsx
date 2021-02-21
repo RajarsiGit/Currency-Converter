@@ -22,11 +22,15 @@ const Conversion = (callback: (...args: any[]) => void, baseCur: string, targetC
         var val = jsonObj[query];
         
         if (val) {
-          var total = Math.round(val * parseFloat(amount) * 10000) / 10000;
-          if (total.toString().includes('.')) {
-            callback(total.toString());
+          var total = (Math.round(val * parseFloat(amount) * 10000) / 10000).toString();
+          var value = (Math.round(parseFloat(val) * 10000) / 10000).toString();
+
+          if (total.includes('.') && value.includes('.')) {
+            callback({amount: total, value: value});
+          } else if (value.includes('.')) {
+            callback({amount: total.concat('.0000'), value: value});
           } else {
-            callback(total.toString().concat('.00'));
+            callback({amount: total, value: value.concat('.0000')});
           }
         } else {
           var err = new Error("Value not found for " + query);

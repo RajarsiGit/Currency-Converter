@@ -3,8 +3,8 @@ import React from 'react';
 import { Container, Row, Col, Table } from 'react-bootstrap';
 
 type HistCur = {
-  baseCur: string,
-  targetCur: string
+  base: string,
+  target: string
 }
 
 class History extends React.Component<{histcur: HistCur[]}, {}> {
@@ -29,12 +29,12 @@ class History extends React.Component<{histcur: HistCur[]}, {}> {
             <tbody>
               {
                 this.props.histcur.map((item, index) => {
-                  if (item.baseCur !== '' && item.targetCur !== '') {
+                  if (item.base !== '' && item.target !== '') {
                     return [
                       <tr key={index.toString()}>
                         <td>{index + 1}</td>
-                        <td>{item.baseCur}</td>
-                        <td>{item.targetCur}</td>
+                        <td>{item.base}</td>
+                        <td>{item.target}</td>
                       </tr>
                     ];
                   } else {
