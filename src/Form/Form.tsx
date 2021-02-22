@@ -87,6 +87,13 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
   handleBlur(event: { target: { id: string, value: string } }) {
     this.formRefs.inputRef.value = this.formRefs.inputRef.value.includes('.')?
     this.formRefs.inputRef.value : this.formRefs.inputRef.value.concat('.0000');
+    this.setState({
+      formstate: {
+        baseCur: this.formRefs.baseRef.value,
+        targetCur: this.formRefs.targetRef.value,
+        amount: this.formRefs.inputRef.value
+      }
+    });
   }
 
   render() {

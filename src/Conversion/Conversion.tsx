@@ -24,7 +24,6 @@ const Conversion = (callback: (...args: any[]) => void, baseCur: string, targetC
         if (val) {
           var total = (Math.round(val * parseFloat(amount) * 10000) / 10000).toString();
           var value = (Math.round(parseFloat(val) * 10000) / 10000).toString();
-
           if (total.includes('.') && value.includes('.')) {
             callback({amount: total, value: value});
           } else if (value.includes('.')) {
