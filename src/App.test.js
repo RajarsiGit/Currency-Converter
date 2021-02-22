@@ -37,9 +37,9 @@ test('Renders History Section Card', () => {
   .toBeInTheDocument();
   expect(screen.getByText(/#/i))
   .toBeInTheDocument();
-  expect(screen.getAllByText(/Base Currency/i)[1])
+  expect(screen.getByText(/Base Currency/i))
   .toBeInTheDocument();
-  expect(screen.getAllByText(/Target Currency/i)[1])
+  expect(screen.getByText(/Target Currency/i))
   .toBeInTheDocument();
 });
 

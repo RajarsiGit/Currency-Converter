@@ -29,8 +29,10 @@ const Conversion = (callback: (...args: any[]) => void, baseCur: string, targetC
             callback({amount: total, value: value});
           } else if (value.includes('.')) {
             callback({amount: total.concat('.0000'), value: value});
-          } else {
+          } else if (total.includes('.')) {
             callback({amount: total, value: value.concat('.0000')});
+          } else {
+            callback({amount: total.concat('.0000'), value: value.concat('.0000')});
           }
         } else {
           var err = new Error("Value not found for " + query);

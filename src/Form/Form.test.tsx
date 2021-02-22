@@ -8,7 +8,7 @@ test('Renders Base Amount', () => {
 });
 test('Renders Base Currency', () => {
   render(<Form process="" state="" />);
-  expect(screen.getByText(/Base Currency/i))
+  expect(screen.getByText(/Base Cur./i))
   .toBeInTheDocument();
 });
 test('Renders Select Base Currency', () => {
@@ -18,7 +18,7 @@ test('Renders Select Base Currency', () => {
 });
 test('Renders Target Currency', () => {
   render(<Form process="" state="" />);
-expect(screen.getByText(/Target Currency/i))
+expect(screen.getByText(/Target Cur./i))
 .toBeInTheDocument();
 });
 test('Renders Select Target Currency', () => {
