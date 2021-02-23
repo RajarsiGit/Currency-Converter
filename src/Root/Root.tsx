@@ -1,6 +1,6 @@
 import React from 'react';
-//import styles from './Root.module.css';
-import { Container, Row, Col, Card } from 'react-bootstrap';
+import styles from './Root.module.css';
+import { Container, Row, Col, Card, Spinner } from 'react-bootstrap';
 import Display from '../Display/Display';
 import AppForm from '../Form/Form';
 import Conversion from '../Conversion/Conversion';
@@ -21,6 +21,9 @@ type rootState = {
 }
 
 class Root extends React.Component<{}, { roostate: rootState }> {
+  rootRef!: {
+    spinnerRef: any;
+  }
   constructor(props: any | Readonly<{}>) {
     super(props);
     this.state = {
@@ -44,11 +47,12 @@ class Root extends React.Component<{}, { roostate: rootState }> {
         }]
       }
     };
-
-    this.process = this.process.bind(this);
+    this.rootRef = {
+      spinnerRef: null
+    }
   }
 
-  process(state: any) {
+  process = (state: any) => {
     Conversion(({amount, value}) => {
       this.setState({
         roostate: {
@@ -74,9 +78,27 @@ class Root extends React.Component<{}, { roostate: rootState }> {
     }, state.baseCur, state.targetCur, state.amount);
   }
 
+  handleLoad = () => {
+    setTimeout(() => {
+      this.rootRef.spinnerRef.style.opacity = '0';
+    }, 1);
+    setTimeout(() => {
+      this.rootRef.spinnerRef.style.display = 'none';
+    }, 700);
+  }
+
   render() {
-    return (
-      <div>
+    return (  
+      <div onLoad={this.handleLoad}>
+        <div ref={(e: any) => this.rootRef.spinnerRef = e} className={styles.Spinner}>
+          <Container>
+            <Row className="justify-content-center">
+              <Col xs="auto" lg="auto" className="d-flex align-items-center">
+                <Spinner animation="border" variant="primary" />
+              </Col>
+            </Row>
+          </Container>
+        </div>
         <Ribbon />
         <Banner />
         <Container>
