@@ -3,50 +3,50 @@ import App from './App';
 
 test('Renders Ribbon', () => {
   render(<App />);
-  expect(screen.getByText(/Currency Converter Applicaton/i))
+  expect(screen.getByText('Currency Converter Applicaton'))
   .toBeInTheDocument();
 });
 
 test('Renders Image Carousel', () => {
   render(<App />);
-  expect(screen.getByText(/Previous/i))
+  expect(screen.getByText('Previous'))
   .toBeInTheDocument();
-  expect(screen.getByText(/Next/i))
+  expect(screen.getByText('Next'))
   .toBeInTheDocument();
 });
 
 test('Renders Conveter Section Card', () => {
   render(<App />);
-  expect(screen.getByText(/Convert Your Currency Now/i))
+  expect(screen.getByText('Convert Your Currency Now'))
   .toBeInTheDocument();
-  expect(screen.getByText(/Target Amount/i))
+  expect(screen.getByText('Target Amount'))
   .toBeInTheDocument();
-  expect(screen.getByText(/Base Amount/i))
+  expect(screen.getByText('Base Amount'))
   .toBeInTheDocument();
-  expect(screen.getAllByText(/Base Currency/i)[0])
+  expect(screen.getByText('Base Cur.', { exact: true }))
   .toBeInTheDocument();
-  expect(screen.getAllByText(/Target Currency/i)[0])
+  expect(screen.getByText('Target Cur.', { exact: true }))
   .toBeInTheDocument();
-  expect(screen.getAllByText(/Get Conversion/i)[0])
+  expect(screen.getByText('Convert'))
   .toBeInTheDocument();
 });
 
 test('Renders History Section Card', () => {
   render(<App />);
-  expect(screen.getByText(/Used Conversions/i))
+  expect(screen.getByText('Used Conversions'))
   .toBeInTheDocument();
-  expect(screen.getByText(/#/i))
+  expect(screen.getByText('#'))
   .toBeInTheDocument();
-  expect(screen.getByText(/Base Currency/i))
+  expect(screen.getByText('Base Currency'))
   .toBeInTheDocument();
-  expect(screen.getByText(/Target Currency/i))
+  expect(screen.getByText('Target Currency'))
   .toBeInTheDocument();
 });
 
 test('Renders Footer Section text', () => {
   render(<App />);
-  expect(screen.getByText(/Design by:/i))
+  expect(screen.getByText('Design by:'))
   .toBeInTheDocument();
-  expect(screen.getByText(/Rajarsi Saha/i))
+  expect(screen.getByText('Rajarsi Saha'))
   .toBeInTheDocument();
 });

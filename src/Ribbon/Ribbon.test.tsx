@@ -3,6 +3,6 @@ import Ribbon from './Ribbon';
 
 test('Renders Ribbon', () => {
   render(<Ribbon />);
-  expect(screen.getByText(/Currency Converter Applicaton/i))
+  expect(screen.getByText('Currency Converter Applicaton'))
   .toBeInTheDocument();
 });

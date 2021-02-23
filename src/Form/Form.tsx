@@ -34,14 +34,9 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
       conButtonRef: null,
       inputRef: null
     }
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.handleBlur = this.handleBlur.bind(this);
   }
 
-  handleChange(event: { target: { id: string, value: string } }) {
+  handleChange = (event: { target: { id: string, value: string } }) => {
     if (event.target.id === 'Form.ControlSelect1') {
       this.setState({
         formstate: {
@@ -49,8 +44,6 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
           targetCur: this.state.formstate.targetCur,
           amount: this.state.formstate.amount
         }
-      }, () => {
-        this.props.process(this.state.formstate);
       });
     } else if (event.target.id === 'Form.ControlSelect2') {
       this.setState({
@@ -59,18 +52,16 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
           targetCur: event.target.value,
           amount: this.state.formstate.amount
         }
-      }, () => {
-        this.props.process(this.state.formstate);
       });
     }
   }
 
-  handleSubmit(event: { preventDefault: () => void }) {
+  handleSubmit = (event: { preventDefault: () => void }) => {
     this.props.process(this.state.formstate);
     event.preventDefault();
   }
 
-  handleClick() {
+  handleClick = () => {
     this.setState({
       formstate: {
         baseCur: this.state.formstate.targetCur,
@@ -84,7 +75,7 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
     });
   }
 
-  handleBlur(event: { target: { id: string, value: string } }) {
+  handleBlur = () => {
     this.formRefs.inputRef.value = this.formRefs.inputRef.value.includes('.')?
     this.formRefs.inputRef.value : this.formRefs.inputRef.value.concat('.0000');
     this.setState({
@@ -489,7 +480,7 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
           <Col md="auto">
             <Button variant="primary" type="submit" title="Convert Now"
             ref={(e: any) => this.formRefs.conButtonRef = e}>
-              Get Conversion
+              Convert
             </Button>
           </Col>
         </Row>

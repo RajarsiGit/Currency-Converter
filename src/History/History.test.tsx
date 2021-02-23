@@ -3,10 +3,10 @@ import History from './History';
 
 test('Renders History Section Card', () => {
   render(<History histcur={[]} />);
-  expect(screen.getByText(/#/i))
+  expect(screen.getByText('#'))
   .toBeInTheDocument();
-  expect(screen.getByText(/Base Currency/i))
+  expect(screen.getByText('Base Currency'))
   .toBeInTheDocument();
-  expect(screen.getByText(/Target Currency/i))
+  expect(screen.getByText('Target Currency'))
   .toBeInTheDocument();
 });

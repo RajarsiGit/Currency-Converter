@@ -3,12 +3,12 @@ import Root from './Root';
 
 test('Renders Conveter Section Card', () => {
   render(<Root />);
-  expect(screen.getByText(/Convert Your Currency Now/i))
+  expect(screen.getByText('Convert Your Currency Now'))
   .toBeInTheDocument();
 });
 
 test('Renders History Section Card', () => {
   render(<Root />);
-  expect(screen.getByText(/Used Conversions/i))
+  expect(screen.getByText('Used Conversions'))
   .toBeInTheDocument();
 });

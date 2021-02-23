@@ -3,8 +3,8 @@ import Banner from './Banner';
 
 test('Renders Image Carousel', () => {
     render(<Banner />);
-    expect(screen.getByText(/Previous/i))
+    expect(screen.getByText('Previous'))
     .toBeInTheDocument();
-    expect(screen.getByText(/Next/i))
+    expect(screen.getByText('Next'))
     .toBeInTheDocument();
 });

@@ -3,8 +3,8 @@ import Footer from './Footer';
 
 test('Renders Footer Section text', () => {
   render(<Footer />);
-  expect(screen.getByText(/Design by:/i))
+  expect(screen.getByText('Design by:'))
   .toBeInTheDocument();
-  expect(screen.getByText(/Rajarsi Saha/i))
+  expect(screen.getByText('Rajarsi Saha'))
   .toBeInTheDocument();
 });
