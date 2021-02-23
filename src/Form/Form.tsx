@@ -76,15 +76,23 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
   }
 
   handleBlur = () => {
-    this.formRefs.inputRef.value = this.formRefs.inputRef.value.includes('.')?
-    this.formRefs.inputRef.value : this.formRefs.inputRef.value.concat('.0000');
-    this.setState({
-      formstate: {
-        baseCur: this.formRefs.baseRef.value,
-        targetCur: this.formRefs.targetRef.value,
-        amount: this.formRefs.inputRef.value
-      }
-    });
+    if (this.formRefs.inputRef.value) {
+      this.formRefs.inputRef.value = this.formRefs.inputRef.value.includes('.')?
+      this.formRefs.inputRef.value : this.formRefs.inputRef.value.concat('.0000');
+      this.setState({
+        formstate: {
+          baseCur: this.formRefs.baseRef.value,
+          targetCur: this.formRefs.targetRef.value,
+          amount: this.formRefs.inputRef.value
+        }
+      });
+    } else {
+      this.formRefs.inputRef.value = this.state.formstate.amount;
+    }
+  }
+
+  handleFocus = () => {
+    this.formRefs.inputRef.value = '';
   }
 
   render() {
@@ -101,8 +109,9 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
                   </InputGroup.Text>
                 </InputGroup.Prepend>
                 <Form.Control title="Enter Amount" as="input" placeholder="Enter amount" 
-                onBlur={this.handleBlur} defaultValue={this.props.state.amount} 
-                className="text-right" ref={(e: any) => this.formRefs.inputRef = e}>
+                onBlur={this.handleBlur} onFocus={this.handleFocus} 
+                defaultValue={this.props.state.amount} className="text-right" 
+                ref={(e: any) => this.formRefs.inputRef = e}>
                 </Form.Control>
               </InputGroup>
             </Form.Group>
