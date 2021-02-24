@@ -5,7 +5,8 @@ import { Form, InputGroup, Button, Container, Row, Col } from 'react-bootstrap';
 type FormState = {
   baseCur: string,
   targetCur: string,
-  amount: string
+  amount: string,
+  valid: boolean
 }
 
 class AppForm extends React.Component<{process: any, state: any}, {formstate: FormState}> {
@@ -23,7 +24,8 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
       formstate: {
         baseCur: this.props.state.baseCur,
         targetCur: this.props.state.targetCur,
-        amount: this.props.state.amount
+        amount: this.props.state.amount,
+        valid: false
       }
     };
 
@@ -32,8 +34,9 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
       targetRef: null,
       intButtonRef: null,
       conButtonRef: null,
-      inputRef: null
+      inputRef: false
     }
+    
   }
 
   handleChange = (event: { target: { id: string, value: string } }) => {
@@ -42,7 +45,8 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
         formstate: {
           baseCur: event.target.value,
           targetCur: this.state.formstate.targetCur,
-          amount: this.state.formstate.amount
+          amount: this.state.formstate.amount,
+          valid: this.state.formstate.valid
         }
       });
     } else if (event.target.id === 'Form.ControlSelect2') {
@@ -50,7 +54,8 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
         formstate: {
           baseCur: this.state.formstate.baseCur,
           targetCur: event.target.value,
-          amount: this.state.formstate.amount
+          amount: this.state.formstate.amount,
+          valid: this.state.formstate.valid
         }
       });
     }
@@ -66,7 +71,8 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
       formstate: {
         baseCur: this.state.formstate.targetCur,
         targetCur: this.state.formstate.baseCur,
-        amount: this.state.formstate.amount
+        amount: this.state.formstate.amount,
+        valid: this.state.formstate.valid
       }
     }, () => {
       [this.formRefs.baseRef.value, this.formRefs.targetRef.value] = 
@@ -77,15 +83,28 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
 
   handleBlur = () => {
     if (this.formRefs.inputRef.value) {
-      this.formRefs.inputRef.value = this.formRefs.inputRef.value.includes('.')?
-      this.formRefs.inputRef.value : this.formRefs.inputRef.value.concat('.0000');
-      this.setState({
-        formstate: {
-          baseCur: this.formRefs.baseRef.value,
-          targetCur: this.formRefs.targetRef.value,
-          amount: this.formRefs.inputRef.value
-        }
-      });
+      if (parseFloat(this.formRefs.inputRef.value)) {
+        this.formRefs.inputRef.value = this.formRefs.inputRef.value.includes('.')?
+        this.formRefs.inputRef.value : this.formRefs.inputRef.value.concat('.0000');
+        this.setState({
+          formstate: {
+            baseCur: this.formRefs.baseRef.value,
+            targetCur: this.formRefs.targetRef.value,
+            amount: this.formRefs.inputRef.value,
+            valid: true
+          }
+        });
+      } else {
+        this.setState({
+          formstate: {
+            baseCur: this.formRefs.baseRef.value,
+            targetCur: this.formRefs.targetRef.value,
+            amount: this.state.formstate.amount,
+            valid: false
+          }
+        });
+        this.formRefs.inputRef.style.border = '2px solid red';
+      }
     } else {
       this.formRefs.inputRef.value = this.state.formstate.amount;
     }
@@ -93,6 +112,7 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
 
   handleFocus = () => {
     this.formRefs.inputRef.value = '';
+    this.formRefs.inputRef.style.border = '';
   }
 
   render() {
