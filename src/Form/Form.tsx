@@ -1,6 +1,6 @@
 import React from 'react';
 //import styles from './Form.module.css';
-import { Form, InputGroup, Button, Container, Row, Col } from 'react-bootstrap';
+import { Form, InputGroup, Button, Container, Row, Col, Modal } from 'react-bootstrap';
 
 type FormState = {
   baseCur: string,
@@ -9,7 +9,7 @@ type FormState = {
   valid: boolean
 }
 
-class AppForm extends React.Component<{process: any, state: any}, {formstate: FormState}> {
+class AppForm extends React.Component<{process: any, state: any}, {formstate: FormState, show: boolean}> {
   formRefs!: {
     baseRef: any;
     targetRef: any;
@@ -26,7 +26,8 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
         targetCur: this.props.state.targetCur,
         amount: this.props.state.amount,
         valid: false
-      }
+      },
+      show: false
     };
 
     this.formRefs = {
@@ -36,7 +37,6 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
       conButtonRef: null,
       inputRef: false
     }
-    
   }
 
   handleChange = (event: { target: { id: string, value: string } }) => {
@@ -62,7 +62,11 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
   }
 
   handleSubmit = (event: { preventDefault: () => void }) => {
-    this.props.process(this.state.formstate);
+    if (this.state.formstate.valid) {
+      this.props.process(this.state.formstate);
+    } else {
+      this.setState({ show: true });
+    }
     event.preventDefault();
   }
 
@@ -77,7 +81,11 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
     }, () => {
       [this.formRefs.baseRef.value, this.formRefs.targetRef.value] = 
       [this.formRefs.targetRef.value, this.formRefs.baseRef.value];
-      this.props.process(this.state.formstate);
+      if (this.state.formstate.valid) {
+        this.props.process(this.state.formstate);
+      } else {
+        this.setState({ show: true });
+      }
     });
   }
 
@@ -118,6 +126,17 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
   render() {
     return (
       <Container fluid className="text-center">
+        <Modal show={this.state.show} onHide={(e: any) => {this.setState({ show: false })}}>
+          <Modal.Header closeButton>
+            <Modal.Title>Warning!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Please check your amount input!</Modal.Body>
+          <Modal.Footer>
+            <Button variant="danger" onClick={(e: any) => {this.setState({ show: false })}}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
         <Form onSubmit={this.handleSubmit}>
         <Row className="justify-content-center mb-3">
           <Col xs="12" lg="10">

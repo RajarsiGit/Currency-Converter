@@ -87,9 +87,13 @@ class Root extends React.Component<{}, { roostate: rootState }> {
     }, 700);
   }
 
+  componentDidMount = () => {
+    window.addEventListener('load', this.handleLoad);
+ }
+
   render() {
     return (  
-      <div onLoad={this.handleLoad}>
+      <div>
         <div ref={(e: any) => this.rootRef.spinnerRef = e} className={styles.Spinner}>
           <Container>
             <Row className="justify-content-center">
