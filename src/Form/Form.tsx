@@ -25,7 +25,7 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
         baseCur: this.props.state.baseCur,
         targetCur: this.props.state.targetCur,
         amount: this.props.state.amount,
-        valid: false
+        valid: true
       },
       show: false
     };
