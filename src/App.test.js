@@ -19,8 +19,6 @@ test('Renders Conveter Section Card', () => {
   render(<App />);
   expect(screen.getByText('Convert Your Currency Now'))
   .toBeInTheDocument();
-  expect(screen.getByText('Target Amount'))
-  .toBeInTheDocument();
   expect(screen.getByText('Base Amount'))
   .toBeInTheDocument();
   expect(screen.getByText('Base Cur.', { exact: true }))

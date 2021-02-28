@@ -20,31 +20,44 @@ type rootState = {
   }[]
 }
 
+class Queue {
+  items: {
+    base: string;
+    target: string;
+  }[];
+  constructor(length: number) {
+    this.items = [];
+    while(length--) {
+      this.items.push({
+        base: '',
+        target: ''
+      })
+    }
+  }
+  next = (element: {base: string, target: string}) => {
+    this.items.reverse();
+    this.items.push(element);
+    this.items.shift();
+    this.items.reverse();
+    return this.items;
+  }
+}
+
 class Root extends React.Component<{}, { roostate: rootState }> {
   rootRef!: {
     spinnerRef: any;
   }
+  queue: Queue;
   constructor(props: any | Readonly<{}>) {
     super(props);
+    this.queue = new Queue(5);
     this.state = {
       roostate: {
         baseCur: 'AED',
         targetCur: 'AED',
         amount: '1.0000',
         conAmount: '1.0000',
-        histCur: [{
-          base: '',
-          target: '',
-        }, {
-          base: '',
-          target: '',
-        }, {
-          base: '',
-          target: '',
-        }, {
-          base: '',
-          target: '',
-        }]
+        histCur: this.queue.items
       }
     };
     this.rootRef = {
@@ -60,19 +73,8 @@ class Root extends React.Component<{}, { roostate: rootState }> {
           targetCur: state.targetCur,
           amount: state.amount,
           conAmount: amount,
-          histCur: [{
-            base: '1.0000 ' + state.baseCur,
-            target: value + ' ' + state.targetCur
-          }, {
-            base: this.state.roostate.histCur[0].base,
-            target: this.state.roostate.histCur[0].target
-          }, {
-            base: this.state.roostate.histCur[1].base,
-            target: this.state.roostate.histCur[1].target
-          }, {
-            base: this.state.roostate.histCur[2].base,
-            target: this.state.roostate.histCur[2].target
-          }]
+          histCur: this.queue.next({base: '1.0000 ' + state.baseCur,
+          target: value + ' ' + state.targetCur})
         }
       });
     }, state.baseCur, state.targetCur, state.amount);
@@ -112,7 +114,7 @@ class Root extends React.Component<{}, { roostate: rootState }> {
                 <Card.Body>
                   <Card.Title style={{fontSize: '2rem'}}>Convert Your Currency Now</Card.Title>
                     <hr />
-                    <Display conAmount={this.state.roostate.conAmount}/>
+                    <Display displayprops={this.state.roostate}/>
                     <AppForm process={this.process} state={this.state.roostate}/>
                 </Card.Body>
               </Card>

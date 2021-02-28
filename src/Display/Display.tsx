@@ -2,8 +2,15 @@ import React from 'react';
 //import styles from './Display.module.css';
 import { Container, Row, Col, Jumbotron } from 'react-bootstrap';
 
-class Display extends React.Component<{conAmount: string}, {}> {
-  constructor(props: any | Readonly<{}>) {
+type displayProps = {
+  baseCur: string,
+  targetCur: string,
+  amount: string,
+  conAmount: string
+}
+
+class Display extends React.Component<{ displayprops: displayProps }, {}> {
+  constructor(props: any) {
     super(props);
     this.state = {};
   }
@@ -16,11 +23,15 @@ class Display extends React.Component<{conAmount: string}, {}> {
             <Jumbotron>
               <Container fluid>
                 <Row className="align-items-end justify-content-end">
-                  <Col xs="12" lg="5">
-                    <h4>Target Amount</h4>
+                  <Col xs="12" lg="4" className="text-left">
+                    <h5>{this.props.displayprops.amount + ' ' + 
+                    this.props.displayprops.baseCur + ' ='}</h5>
                   </Col>
-                  <Col xs="auto" lg="7" className="text-right">
-                    <h1 title="Desired Amount" className="display-4 font-weight-normal">{this.props.conAmount}</h1>
+                  <Col xs="auto" lg="8" className="text-right">
+                    <h1 title="Desired Amount" className="display-4 font-weight-normal">{
+                      this.props.displayprops.conAmount + ' ' +
+                      this.props.displayprops.targetCur
+                    }</h1>
                   </Col>
                 </Row>
               </Container>
