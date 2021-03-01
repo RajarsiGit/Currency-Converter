@@ -1,1 +1,21 @@
 .Form {}
+
+.ExchangeButton {
+    padding: 0.45em 0.7em;
+    border-radius: 50%;
+    transform: scale(1.25);
+}
+
+.Select {
+    border: 1px solid #007bff;
+}
+
+.Input {
+    border: 1px solid #007bff;
+}
+
+@media screen and (max-width: 600px) {
+    .ExchangeButton {
+        transform: rotate(90deg);
+    }
+}

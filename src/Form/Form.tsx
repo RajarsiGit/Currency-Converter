@@ -1,5 +1,5 @@
 import React from 'react';
-//import styles from './Form.module.css';
+import styles from './Form.module.css';
 import { Form, InputGroup, Button, Container, Row, Col, Modal } from 'react-bootstrap';
 
 type FormState = {
@@ -149,7 +149,7 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
                 </InputGroup.Prepend>
                 <Form.Control title="Enter Amount" as="input" placeholder="Enter amount" 
                 onBlur={this.handleBlur} onFocus={this.handleFocus} 
-                defaultValue={this.props.state.amount} className="text-right" 
+                defaultValue={this.props.state.amount} className={"text-right " + styles.Input} 
                 ref={(e: any) => this.formRefs.inputRef = e}>
                 </Form.Control>
               </InputGroup>
@@ -163,7 +163,7 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
               <Col lg="12" xs="8">
                 <Form.Control title="Select Base Currency" as="select" 
                 onChange={this.handleChange} defaultValue={this.props.state.baseCur} 
-                ref={(e: any) => this.formRefs.baseRef = e}>
+                ref={(e: any) => this.formRefs.baseRef = e} className={styles.Select}>
                 <option value="AED">AED - United Arab Emirates Dirham</option>
                 <option value="AFN">AFN - Afghan Afghani</option>
                 <option value="ALL">ALL - Albanian Lek</option>
@@ -337,11 +337,10 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
             </Form.Group>
           </Col>
           <Col xs="12" lg="2" className="d-flex align-items-center justify-content-center">
-            <Button className="mb-2 mt-n2" style={{paddingTop: '0.45em', 
-            paddingBottom: '0.45em', borderRadius: '50%'}} variant="primary" 
-            title="Interchange" onClick={this.handleClick} 
+            <Button className={"mb-4 mt-2 " + styles.ExchangeButton}
+            variant="outline-primary" title="Interchange" onClick={this.handleClick} 
             ref={(e: any) => this.formRefs.intButtonRef = e}>
-              <i className="fa fa-sync-alt"></i>
+              <i className="fas fa-exchange-alt"></i>
             </Button>
           </Col>
           <Col xs="12" lg="4">
@@ -350,7 +349,7 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
               <Col lg="12" xs="8">
                 <Form.Control title="Select Target Currency" as="select" 
                 onChange={this.handleChange} defaultValue={this.props.state.targetCur} 
-                ref={(e: any) => this.formRefs.targetRef = e}>
+                ref={(e: any) => this.formRefs.targetRef = e} className={styles.Select}>
                   <option value="AED">AED - United Arab Emirates Dirham</option>
                   <option value="AFN">AFN - Afghan Afghani</option>
                   <option value="ALL">ALL - Albanian Lek</option>
