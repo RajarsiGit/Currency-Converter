@@ -97,7 +97,7 @@ class Root extends React.Component<{}, { roostate: rootState }> {
     return (  
       <div>
         <div ref={(e: any) => this.rootRef.spinnerRef = e} className={styles.Spinner}>
-          <Container>
+          <Container fluid>
             <Row className="justify-content-center">
               <Col xs="auto" lg="auto" className="d-flex align-items-center">
                 <Spinner animation="border" variant="primary" />
@@ -107,9 +107,9 @@ class Root extends React.Component<{}, { roostate: rootState }> {
         </div>
         <Ribbon />
         <Banner />
-        <Container>
+        <Container fluid>
           <Row className="justify-content-center">
-            <Col xs="12" lg="8">
+            <Col xs="12" lg="6">
               <Card style={{margin: '1em auto'}}>
                 <Card.Body>
                   <Card.Title style={{fontSize: '2rem'}}>Convert Your Currency Now</Card.Title>
@@ -121,7 +121,7 @@ class Root extends React.Component<{}, { roostate: rootState }> {
             </Col>
           </Row>
           <Row className="justify-content-center">
-            <Col xs="12" lg="8">
+            <Col xs="12" lg="6">
               <Card style={{margin: '1em auto'}}>
                 <Card.Body>
                   <Card.Title style={{fontSize: '2rem', }}>Used Conversions</Card.Title>

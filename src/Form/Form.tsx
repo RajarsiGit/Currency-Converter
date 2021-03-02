@@ -125,7 +125,7 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
 
   render() {
     return (
-      <Container fluid className="text-center">
+      <Container fluid>
         <Modal show={this.state.show} onHide={(e: any) => {this.setState({ show: false })}}>
           <Modal.Header closeButton>
             <Modal.Title>Warning!</Modal.Title>

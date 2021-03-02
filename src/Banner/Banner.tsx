@@ -22,9 +22,9 @@ class Banner extends React.Component<{}, {}> {
   render() {
     return (
       <div className={styles.Banner}>
-        <Container>
+        <Container fluid>
           <Row className="justify-content-center">
-            <Col xs="auto" lg="8" className="pt-3">
+            <Col xs="auto" lg="6" className="pt-3">
               <Carousel>
                 <Carousel.Item ref={(e: any) => this.bannerRefs.carItemRef1 = e}>
                   <Image src="banner1.jpg" fluid />
