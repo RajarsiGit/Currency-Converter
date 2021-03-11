@@ -1,28 +1,20 @@
-import { request } from 'https'
+import { request } from 'https';
 
+const getRate = (base: string, target: string): Promise<number> => {
+  return new Promise(async (resolve, reject) => {
+    let q = base.toUpperCase() + '_' + target.toUpperCase();
 
-const getRate = (base: string, target: string): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    let q = base.toUpperCase() + target.toUpperCase();
-
-    const options1 = {
-      hostname: 'rocky-crag-10144.herokuapp.com',
+    const options = {
+      hostname: 'free.currconv.com',
       port: 443,
-      path: '/https://www.freeforexapi.com/api/live?pairs=' + q,
-      method: 'GET'
-    }
-
-    const options2 = {
-      hostname: 'freeforexapi.com',
-      port: 443,
-      path: '/api/live?pairs=' + q,
+      path: '/api/v7/convert?q=' + q + '&compact=ultra&apiKey=187c342ff3c5f3d02ed2',
       method: 'GET'
     }
   
-    const req = request(options2, res => {
+    const req = request(options, res => {
       res.on('data', d => {
         var jsonObj = JSON.parse(d);
-        var val = jsonObj['rates'][q].rate.toString();
+        var val = parseFloat(jsonObj[q]);
         resolve(val);
       });
     });
@@ -36,29 +28,22 @@ const getRate = (base: string, target: string): Promise<string> => {
 }
 
 const Conversion = (callback: (...args: any[]) => void, baseCur: string, targetCur: string, amount: string) => {
-  getRate('USD', baseCur)
-  .then((base) => {
-    getRate('USD', targetCur)
-    .then((target) => {
-      var val = 1/parseFloat(base) * parseFloat(target);
-      var total = (Math.round(val * parseFloat(amount) * 10000) / 10000).toString();
-      var value = (Math.round(parseFloat(val.toString()) * 10000) / 10000).toString();
-      if (total.includes('.') && value.includes('.')) {
-        callback({amount: total, value: value});
-      } else if (value.includes('.')) {
-        callback({amount: total.concat('.0000'), value: value});
-      } else if (total.includes('.')) {
-        callback({amount: total, value: value.concat('.0000')});
-      } else {
-        callback({amount: total.concat('.0000'), value: value.concat('.0000')});
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  getRate(baseCur, targetCur)
+  .then((data) => {
+    var total = (Math.round(data * parseFloat(amount) * 10000) / 10000).toString();
+    var value = (Math.round(parseFloat(data.toString()) * 10000) / 10000).toString();
+    if (total.includes('.') && value.includes('.')) {
+      callback({amount: total, value: value});
+    } else if (value.includes('.')) {
+      callback({amount: total.concat('.0000'), value: value});
+    } else if (total.includes('.')) {
+      callback({amount: total, value: value.concat('.0000')});
+    } else {
+      callback({amount: total.concat('.0000'), value: value.concat('.0000')});
+    }
   })
   .catch((err) => {
-    console.error(err);
+    console.log(err);
   });
 }
 
