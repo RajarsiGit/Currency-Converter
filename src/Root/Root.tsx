@@ -8,7 +8,7 @@ import Banner from '../Banner/Banner';
 import Ribbon from '../Ribbon/Ribbon';
 import Footer from '../Footer/Footer';
 import History from '../History/History';
-import { db, getData } from '../Conversion/dbHandler'
+import { db, getData } from '../Database/dbHandler'
 
 type rootState = {
   baseCur: string,

@@ -1,5 +1,6 @@
 import { request } from 'https';
-import { db, addData } from './dbHandler';
+import { db, addData } from '../Database/dbHandler';
+import { apiKey } from './API_KEY.json';
 
 const getRate = (base: string, target: string): Promise<number> => {
   return new Promise(async (resolve, reject) => {
@@ -8,7 +9,7 @@ const getRate = (base: string, target: string): Promise<number> => {
     const options = {
       hostname: 'free.currconv.com',
       port: 443,
-      path: '/api/v7/convert?q=' + q + '&compact=ultra&apiKey=187c342ff3c5f3d02ed2',
+      path: '/api/v7/convert?q=' + q + '&compact=ultra&apiKey=' + apiKey,
       method: 'GET'
     }
   
