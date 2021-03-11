@@ -1,4 +1,5 @@
 import { request } from 'https';
+import { db, addData } from './dbHandler';
 
 const getRate = (base: string, target: string): Promise<number> => {
   return new Promise(async (resolve, reject) => {
@@ -33,12 +34,16 @@ const Conversion = (callback: (...args: any[]) => void, baseCur: string, targetC
     var total = (Math.round(data * parseFloat(amount) * 10000) / 10000).toString();
     var value = (Math.round(parseFloat(data.toString()) * 10000) / 10000).toString();
     if (total.includes('.') && value.includes('.')) {
+      addData(db, {base: '1.0000 ' + baseCur, target: value + ' ' + targetCur });
       callback({amount: total, value: value});
     } else if (value.includes('.')) {
+      addData(db, {base: '1.0000 ' + baseCur, target: value + ' ' + targetCur });
       callback({amount: total.concat('.0000'), value: value});
     } else if (total.includes('.')) {
+      addData(db, {base: '1.0000 ' + baseCur, target: value + '.0000 ' + targetCur });
       callback({amount: total, value: value.concat('.0000')});
     } else {
+      addData(db, {base: '1.0000 ' + baseCur, target: value + '.0000 ' + targetCur });
       callback({amount: total.concat('.0000'), value: value.concat('.0000')});
     }
   })

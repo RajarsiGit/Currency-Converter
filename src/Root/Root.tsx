@@ -8,6 +8,7 @@ import Banner from '../Banner/Banner';
 import Ribbon from '../Ribbon/Ribbon';
 import Footer from '../Footer/Footer';
 import History from '../History/History';
+import { db, getData } from '../Conversion/dbHandler'
 
 type rootState = {
   baseCur: string,
@@ -20,44 +21,22 @@ type rootState = {
   }[]
 }
 
-class Queue {
-  items: {
-    base: string;
-    target: string;
-  }[];
-  constructor(length: number) {
-    this.items = [];
-    while(length--) {
-      this.items.push({
-        base: '',
-        target: ''
-      })
-    }
-  }
-  next = (element: {base: string, target: string}) => {
-    this.items.reverse();
-    this.items.push(element);
-    this.items.shift();
-    this.items.reverse();
-    return this.items;
-  }
-}
-
 class Root extends React.Component<{}, { roostate: rootState }> {
   rootRef!: {
     spinnerRef: any;
   }
-  queue: Queue;
   constructor(props: any | Readonly<{}>) {
     super(props);
-    this.queue = new Queue(5);
     this.state = {
       roostate: {
         baseCur: 'AED',
         targetCur: 'AED',
         amount: '1.0000',
         conAmount: '1.0000',
-        histCur: this.queue.items
+        histCur: [{
+          base: '',
+          target: ''
+        }]
       }
     };
     this.rootRef = {
@@ -66,21 +45,42 @@ class Root extends React.Component<{}, { roostate: rootState }> {
   }
 
   process = (state: any) => {
-    Conversion(({amount, value}) => {
-      this.setState({
-        roostate: {
-          baseCur: state.baseCur,
-          targetCur: state.targetCur,
-          amount: state.amount,
-          conAmount: amount,
-          histCur: this.queue.next({base: '1.0000 ' + state.baseCur,
-          target: value + ' ' + state.targetCur})
-        }
+    Conversion(({amount}) => {
+      getData(db)
+      .then((data) => {
+        this.setState({
+          roostate: {
+            baseCur: state.baseCur,
+            targetCur: state.targetCur,
+            amount: state.amount,
+            conAmount: amount,
+            histCur: data
+          }
+        });
+      })
+      .catch((err) => {
+        console.error(err);
       });
     }, state.baseCur, state.targetCur, state.amount);
   }
 
   handleLoad = () => {
+    getData(db)
+    .then((data) => {
+      this.setState({
+        roostate: {
+          baseCur: this.state.roostate.baseCur,
+          targetCur: this.state.roostate.targetCur,
+          amount: this.state.roostate.amount,
+          conAmount: this.state.roostate.amount,
+          histCur: data
+        }
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+    
     setTimeout(() => {
       this.rootRef.spinnerRef.style.opacity = '0';
     }, 1);
