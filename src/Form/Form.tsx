@@ -148,7 +148,7 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
                   </InputGroup.Text>
                 </InputGroup.Prepend>
                 <Form.Control title="Enter Amount" as="input" placeholder="Enter amount" 
-                onBlur={this.handleBlur} onFocus={this.handleFocus} 
+                onBlur={this.handleBlur} onFocus={this.handleFocus} inputMode="numeric"
                 defaultValue={this.props.state.amount} className={"text-right " + styles.Input} 
                 ref={(e: any) => this.formRefs.inputRef = e}>
                 </Form.Control>
