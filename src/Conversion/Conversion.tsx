@@ -1,5 +1,5 @@
 import { request } from 'https';
-import { db, addData } from '../Database/dbHandler';
+import { db, addData, getData } from '../Database/dbHandler';
 import { apiKey } from './API_KEY.json';
 
 const getRate = (base: string, target: string): Promise<number> => {
@@ -29,17 +29,17 @@ const getRate = (base: string, target: string): Promise<number> => {
   });
 }
 
-const Conversion = (baseCur: string, targetCur: string, amount: string): Promise<void> => {
+const convert = (baseCur: string, targetCur: string, amount: string): Promise<{base: string, target: string}[]>  => {
   return new Promise((resolve, reject) => {
     getRate(baseCur, targetCur)
-    .then((data) => {
+    .then(async (data) => {
       var total = (Math.round(data * parseFloat(amount) * 10000) / 10000).toString();
       if (total.includes('.')) {
-        addData(db, {base: amount + ' ' + baseCur, target: total + ' ' + targetCur });
+        await addData(db, {base: amount + ' ' + baseCur, target: total + ' ' + targetCur });
       } else {
-        addData(db, {base: amount + ' ' + baseCur, target: total + '.0000 ' + targetCur });
+        await addData(db, {base: amount + ' ' + baseCur, target: total + '.0000 ' + targetCur });
       }
-      resolve();
+      resolve(getData(db));
     })
     .catch((err) => {
       reject(err);
@@ -47,4 +47,4 @@ const Conversion = (baseCur: string, targetCur: string, amount: string): Promise
   });
 }
 
-export default Conversion;
+export default convert;

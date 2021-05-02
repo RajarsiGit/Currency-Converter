@@ -27,8 +27,8 @@ class AppForm extends React.Component<{formprops: FormProps}, {formstate: FormSt
     super(props);
     this.state = {
       formstate: {
-        baseCur: this.props.formprops.state.histCur[0].base.slice(-3),
-        targetCur: this.props.formprops.state.histCur[0].target.slice(-3),
+        baseCur: this.props.formprops.state.histCur[0].base.slice(-3) || 'AED',
+        targetCur: this.props.formprops.state.histCur[0].target.slice(-3) || 'AED',
         amount: this.props.formprops.state.amount,
         valid: true
       },

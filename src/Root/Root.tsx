@@ -3,12 +3,12 @@ import styles from './Root.module.css';
 import { Container, Row, Col, Card, Spinner } from 'react-bootstrap';
 import Display from '../Display/Display';
 import AppForm from '../Form/Form';
-import Conversion from '../Conversion/Conversion';
+import convert from '../Conversion/Conversion';
 import Banner from '../Banner/Banner';
 import Ribbon from '../Ribbon/Ribbon';
 import Footer from '../Footer/Footer';
 import History from '../History/History';
-import { db, getData } from '../Database/dbHandler'
+import { db, getData, deleteData } from '../Database/dbHandler'
 
 type rootState = {
   amount: string,
@@ -41,14 +41,19 @@ class Root extends React.Component<{}, { roostate: rootState }> {
   }
 
   process = (state: any) => {
-    Conversion(state.baseCur, state.targetCur, state.amount)
-    .then(() => {
-      getData(db)
-      .then((data: any) => {
+    this.setState({
+      roostate: {
+        amount: state.amount,
+        histCur: this.state.roostate.histCur,
+        loading: true
+      }
+    }, () => {
+      convert(state.baseCur, state.targetCur, state.amount)
+      .then((data: {base: string, target: string}[]) => {
         this.setState({
           roostate: {
             amount: state.amount,
-            histCur: data,
+            histCur: data.length > 0 ? data : this.state.roostate.histCur,
             loading: false
           }
         });
@@ -56,10 +61,36 @@ class Root extends React.Component<{}, { roostate: rootState }> {
       .catch((err: any) => {
         console.error(err);
       });
-    })
-    .catch((err) => {
-      console.error(err);
-    })
+    });
+  }
+
+  reset = (): Promise<void> => {
+    return new Promise(() => {
+      this.setState({
+        roostate: {
+          amount: this.state.roostate.amount,
+          histCur: this.state.roostate.histCur,
+          loading: true
+        }
+      }, () => {
+        deleteData(db)
+        .then(() => {
+          this.setState({
+            roostate: {
+              amount: '1.0000',
+              histCur: [{
+                base: '',
+                target: ''
+              }],
+              loading: false
+            }
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+      });
+    });
   }
 
   componentDidMount = () => {
@@ -69,7 +100,7 @@ class Root extends React.Component<{}, { roostate: rootState }> {
         this.setState({
           roostate: {
             amount: this.state.roostate.amount,
-            histCur: data,
+            histCur: data.length > 0 ? data : this.state.roostate.histCur,
             loading: false
           }
         }, () => {
@@ -87,18 +118,24 @@ class Root extends React.Component<{}, { roostate: rootState }> {
     });
   }
 
-  asyncRender = (data: any) => {
+  asyncDisplayFormRender = (data: any) => {
     return (
       <div>
-        <Display displayprops={data}/>
+        <Display displayprops={data.histCur[0]}/>
         <AppForm formprops={{process: this.process, state: data}}/>
       </div>
     );
   }
 
+  asyncHistoryRender = (data: any) => {
+    return (
+      <div>
+        <History histcur={data} reset={this.reset} />
+      </div>
+    );
+  }
+
   render() {
-    const loading = this.state.roostate.loading;
-    const rootstate = this.state.roostate;
     return (  
       <div>
         <div ref={(e: any) => this.rootRef.spinnerRef = e} className={styles.Spinner}>
@@ -119,7 +156,8 @@ class Root extends React.Component<{}, { roostate: rootState }> {
                 <Card.Body>
                   <Card.Title style={{fontSize: '2rem'}}>Convert Your Currency Now</Card.Title>
                     <hr />
-                    {loading ? "Still Loading" : this.asyncRender(rootstate)}
+                    {this.state.roostate.loading ? <Spinner animation="border" variant="primary" /> :
+                    this.asyncDisplayFormRender(this.state.roostate)}
                 </Card.Body>
               </Card>
             </Col>
@@ -130,7 +168,8 @@ class Root extends React.Component<{}, { roostate: rootState }> {
                 <Card.Body>
                   <Card.Title style={{fontSize: '2rem', }}>Used Conversions</Card.Title>
                     <hr />
-                    <History histcur={this.state.roostate.histCur} />
+                    {this.state.roostate.loading ? <Spinner animation="border" variant="primary" /> :
+                    this.asyncHistoryRender(this.state.roostate.histCur)}
                 </Card.Body>
               </Card>
             </Col>

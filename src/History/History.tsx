@@ -1,13 +1,13 @@
 import React from 'react';
 //import styles from './History.module.css';
-import { Container, Row, Col, Table } from 'react-bootstrap';
+import { Container, Row, Col, Table, Button } from 'react-bootstrap';
 
 type HistCur = {
   base: string,
   target: string
 }
 
-class History extends React.Component<{histcur: HistCur[]}, {}> {
+class History extends React.Component<{histcur: HistCur[], reset: any}, {}> {
   constructor(props: any | Readonly<{}>) {
     super(props);
     this.state = {};
@@ -44,6 +44,13 @@ class History extends React.Component<{histcur: HistCur[]}, {}> {
               }
             </tbody>
           </Table>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs="12" lg="12">
+            <Button onClick={() => this.props.reset()}>
+              Delete data
+            </Button>
           </Col>
         </Row>
       </Container>

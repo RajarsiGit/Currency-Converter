@@ -3,16 +3,24 @@ import React from 'react';
 import { Container, Row, Col, Jumbotron } from 'react-bootstrap';
 
 type displayProps = {
-  histCur: {
-    base: string,
-    target: string
-  }[],
+  base: string,
+  target: string
 }
 
-class Display extends React.Component<{ displayprops: displayProps }, {}> {
+type displayState = {
+  base: string,
+  target: string
+}
+
+class Display extends React.Component<{ displayprops: displayProps }, { displaystate: displayState }> {
   constructor(props: any) {
     super(props);
-    this.state = {};
+    this.state = {
+      displaystate: {
+        base: this.props.displayprops.base,
+        target: this.props.displayprops.target
+      }
+    };
   }
 
   render() {
@@ -24,11 +32,11 @@ class Display extends React.Component<{ displayprops: displayProps }, {}> {
               <Container fluid>
                 <Row className="align-items-end justify-content-end">
                   <Col xs="12" lg="4" className="text-left">
-                    <h5>{this.props.displayprops.histCur[0].base + ' ='}</h5>
+                    <h5>{(this.state.displaystate.base || '1.0000 AED') + ' ='}</h5>
                   </Col>
                   <Col xs="auto" lg="8" className="text-right">
                     <h1 title="Desired Amount" className="display-4 font-weight-normal">{
-                      this.props.displayprops.histCur[0].target
+                      this.state.displaystate.target || '1.0000 AED'
                     }</h1>
                   </Col>
                 </Row>
