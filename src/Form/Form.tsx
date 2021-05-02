@@ -9,7 +9,12 @@ type FormState = {
   valid: boolean
 }
 
-class AppForm extends React.Component<{process: any, state: any}, {formstate: FormState, show: boolean}> {
+type FormProps = {
+  process: any,
+  state: any
+}
+
+class AppForm extends React.Component<{formprops: FormProps}, {formstate: FormState, show: boolean}> {
   formRefs!: {
     baseRef: any;
     targetRef: any;
@@ -22,9 +27,9 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
     super(props);
     this.state = {
       formstate: {
-        baseCur: this.props.state.baseCur,
-        targetCur: this.props.state.targetCur,
-        amount: this.props.state.amount,
+        baseCur: this.props.formprops.state.histCur[0].base.slice(-3),
+        targetCur: this.props.formprops.state.histCur[0].target.slice(-3),
+        amount: this.props.formprops.state.amount,
         valid: true
       },
       show: false
@@ -63,7 +68,7 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
 
   handleSubmit = (event: { preventDefault: () => void }) => {
     if (this.state.formstate.valid) {
-      this.props.process(this.state.formstate);
+      this.props.formprops.process(this.state.formstate);
     } else {
       this.setState({ show: true });
     }
@@ -82,7 +87,7 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
       [this.formRefs.baseRef.value, this.formRefs.targetRef.value] = 
       [this.formRefs.targetRef.value, this.formRefs.baseRef.value];
       if (this.state.formstate.valid) {
-        this.props.process(this.state.formstate);
+        this.props.formprops.process(this.state.formstate);
       } else {
         this.setState({ show: true });
       }
@@ -149,7 +154,7 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
                 </InputGroup.Prepend>
                 <Form.Control title="Enter Amount" as="input" placeholder="Enter amount" 
                 onBlur={this.handleBlur} onFocus={this.handleFocus} inputMode="numeric"
-                defaultValue={this.props.state.amount} className={"text-right " + styles.Input} 
+                defaultValue={this.props.formprops.state.amount} className={"text-right " + styles.Input} 
                 ref={(e: any) => this.formRefs.inputRef = e}>
                 </Form.Control>
               </InputGroup>
@@ -162,7 +167,7 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
               <Form.Label column lg="12" xs="4">Base Cur.</Form.Label>
               <Col lg="12" xs="8">
                 <Form.Control title="Select Base Currency" as="select" 
-                onChange={this.handleChange} defaultValue={this.props.state.baseCur} 
+                onChange={this.handleChange} defaultValue={this.props.formprops.state.histCur[0].base.slice(-3)} 
                 ref={(e: any) => this.formRefs.baseRef = e} className={styles.Select}>
                 <option value="AED">AED - United Arab Emirates Dirham</option>
                 <option value="AFN">AFN - Afghan Afghani</option>
@@ -348,7 +353,7 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
               <Form.Label column lg="12" xs="4">Target Cur.</Form.Label>
               <Col lg="12" xs="8">
                 <Form.Control title="Select Target Currency" as="select" 
-                onChange={this.handleChange} defaultValue={this.props.state.targetCur} 
+                onChange={this.handleChange} defaultValue={this.props.formprops.state.histCur[0].target.slice(-3)} 
                 ref={(e: any) => this.formRefs.targetRef = e} className={styles.Select}>
                   <option value="AED">AED - United Arab Emirates Dirham</option>
                   <option value="AFN">AFN - Afghan Afghani</option>
@@ -527,7 +532,7 @@ class AppForm extends React.Component<{process: any, state: any}, {formstate: Fo
           <Col md="auto">
             <Button variant="primary" type="submit" title="Convert Now"
             ref={(e: any) => this.formRefs.conButtonRef = e}>
-              Convert
+              &nbsp;Convert&nbsp;
             </Button>
           </Col>
         </Row>

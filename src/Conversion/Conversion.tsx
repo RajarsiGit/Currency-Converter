@@ -29,27 +29,21 @@ const getRate = (base: string, target: string): Promise<number> => {
   });
 }
 
-const Conversion = (callback: (...args: any[]) => void, baseCur: string, targetCur: string, amount: string) => {
-  getRate(baseCur, targetCur)
-  .then((data) => {
-    var total = (Math.round(data * parseFloat(amount) * 10000) / 10000).toString();
-    var value = (Math.round(parseFloat(data.toString()) * 10000) / 10000).toString();
-    if (total.includes('.') && value.includes('.')) {
-      addData(db, {base: '1.0000 ' + baseCur, target: value + ' ' + targetCur });
-      callback({amount: total, value: value});
-    } else if (value.includes('.')) {
-      addData(db, {base: '1.0000 ' + baseCur, target: value + ' ' + targetCur });
-      callback({amount: total.concat('.0000'), value: value});
-    } else if (total.includes('.')) {
-      addData(db, {base: '1.0000 ' + baseCur, target: value + '.0000 ' + targetCur });
-      callback({amount: total, value: value.concat('.0000')});
-    } else {
-      addData(db, {base: '1.0000 ' + baseCur, target: value + '.0000 ' + targetCur });
-      callback({amount: total.concat('.0000'), value: value.concat('.0000')});
-    }
-  })
-  .catch((err) => {
-    console.log(err);
+const Conversion = (baseCur: string, targetCur: string, amount: string): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    getRate(baseCur, targetCur)
+    .then((data) => {
+      var total = (Math.round(data * parseFloat(amount) * 10000) / 10000).toString();
+      if (total.includes('.')) {
+        addData(db, {base: amount + ' ' + baseCur, target: total + ' ' + targetCur });
+      } else {
+        addData(db, {base: amount + ' ' + baseCur, target: total + '.0000 ' + targetCur });
+      }
+      resolve();
+    })
+    .catch((err) => {
+      reject(err);
+    });
   });
 }
 

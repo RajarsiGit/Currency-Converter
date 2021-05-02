@@ -11,14 +11,12 @@ import History from '../History/History';
 import { db, getData } from '../Database/dbHandler'
 
 type rootState = {
-  baseCur: string,
-  targetCur: string,
   amount: string,
-  conAmount: string,
   histCur: {
     base: string,
     target: string
-  }[]
+  }[],
+  loading: boolean
 }
 
 class Root extends React.Component<{}, { roostate: rootState }> {
@@ -29,14 +27,12 @@ class Root extends React.Component<{}, { roostate: rootState }> {
     super(props);
     this.state = {
       roostate: {
-        baseCur: 'AED',
-        targetCur: 'AED',
         amount: '1.0000',
-        conAmount: '1.0000',
         histCur: [{
           base: '',
           target: ''
-        }]
+        }],
+        loading: true
       }
     };
     this.rootRef = {
@@ -45,55 +41,64 @@ class Root extends React.Component<{}, { roostate: rootState }> {
   }
 
   process = (state: any) => {
-    Conversion(({amount}) => {
+    Conversion(state.baseCur, state.targetCur, state.amount)
+    .then(() => {
+      getData(db)
+      .then((data: any) => {
+        this.setState({
+          roostate: {
+            amount: state.amount,
+            histCur: data,
+            loading: false
+          }
+        });
+      })
+      .catch((err: any) => {
+        console.error(err);
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  }
+
+  componentDidMount = () => {
+    window.addEventListener('load', () => {
       getData(db)
       .then((data) => {
         this.setState({
           roostate: {
-            baseCur: state.baseCur,
-            targetCur: state.targetCur,
-            amount: state.amount,
-            conAmount: amount,
-            histCur: data
+            amount: this.state.roostate.amount,
+            histCur: data,
+            loading: false
           }
+        }, () => {
+          setTimeout(() => {
+            this.rootRef.spinnerRef.style.opacity = '0';
+          }, 1);
+          setTimeout(() => {
+            this.rootRef.spinnerRef.style.display = 'none';
+          }, 700);
         });
       })
       .catch((err) => {
         console.error(err);
       });
-    }, state.baseCur, state.targetCur, state.amount);
-  }
-
-  handleLoad = () => {
-    getData(db)
-    .then((data) => {
-      this.setState({
-        roostate: {
-          baseCur: this.state.roostate.baseCur,
-          targetCur: this.state.roostate.targetCur,
-          amount: this.state.roostate.amount,
-          conAmount: this.state.roostate.amount,
-          histCur: data
-        }
-      });
-    })
-    .catch((err) => {
-      console.error(err);
     });
-    
-    setTimeout(() => {
-      this.rootRef.spinnerRef.style.opacity = '0';
-    }, 1);
-    setTimeout(() => {
-      this.rootRef.spinnerRef.style.display = 'none';
-    }, 700);
   }
 
-  componentDidMount = () => {
-    window.addEventListener('load', this.handleLoad);
- }
+  asyncRender = (data: any) => {
+    return (
+      <div>
+        <Display displayprops={data}/>
+        <AppForm formprops={{process: this.process, state: data}}/>
+      </div>
+    );
+  }
 
   render() {
+    const loading = this.state.roostate.loading;
+    const rootstate = this.state.roostate;
     return (  
       <div>
         <div ref={(e: any) => this.rootRef.spinnerRef = e} className={styles.Spinner}>
@@ -114,8 +119,7 @@ class Root extends React.Component<{}, { roostate: rootState }> {
                 <Card.Body>
                   <Card.Title style={{fontSize: '2rem'}}>Convert Your Currency Now</Card.Title>
                     <hr />
-                    <Display displayprops={this.state.roostate}/>
-                    <AppForm process={this.process} state={this.state.roostate}/>
+                    {loading ? "Still Loading" : this.asyncRender(rootstate)}
                 </Card.Body>
               </Card>
             </Col>
