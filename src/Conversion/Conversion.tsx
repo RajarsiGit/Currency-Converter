@@ -21,8 +21,8 @@ const getRate = (base: string, target: string): Promise<number> => {
       });
     });
   
-    req.on('error', (error: { message: any; }) => {
-      reject(error.message);
+    req.on('error', (error: Error) => {
+      reject(error);
     });
   
     req.end();
@@ -41,7 +41,7 @@ const convert = (baseCur: string, targetCur: string, amount: string): Promise<{b
       }
       resolve(getData(db));
     })
-    .catch((err) => {
+    .catch((err: Error) => {
       reject(err);
     });
   });

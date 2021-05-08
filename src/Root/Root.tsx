@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef, RefObject } from 'react';
 import styles from './Root.module.css';
 import { Container, Row, Col, Card, Spinner } from 'react-bootstrap';
 import Display from '../Display/Display';
@@ -21,9 +21,9 @@ type rootState = {
 
 class Root extends React.Component<{}, { roostate: rootState }> {
   rootRef!: {
-    spinnerRef: any;
+    spinnerRef: RefObject<HTMLDivElement>
   }
-  constructor(props: any | Readonly<{}>) {
+  constructor(props: {}) {
     super(props);
     this.state = {
       roostate: {
@@ -36,11 +36,11 @@ class Root extends React.Component<{}, { roostate: rootState }> {
       }
     };
     this.rootRef = {
-      spinnerRef: null
+      spinnerRef: createRef()
     }
   }
 
-  process = (state: any) => {
+  process = (state: { amount: string, baseCur: string, targetCur: string }) => {
     this.setState({
       roostate: {
         amount: state.amount,
@@ -58,7 +58,7 @@ class Root extends React.Component<{}, { roostate: rootState }> {
           }
         });
       })
-      .catch((err: any) => {
+      .catch((err: Error) => {
         console.error(err);
       });
     });
@@ -99,16 +99,16 @@ class Root extends React.Component<{}, { roostate: rootState }> {
       .then((data) => {
         this.setState({
           roostate: {
-            amount: this.state.roostate.amount,
+            amount: data.length > 0 ? data[0].base.split(' ')[0] : this.state.roostate.amount,
             histCur: data.length > 0 ? data : this.state.roostate.histCur,
             loading: false
           }
         }, () => {
           setTimeout(() => {
-            this.rootRef.spinnerRef.style.opacity = '0';
+            this.rootRef.spinnerRef.current?.setAttribute('style', 'opacity: 0');
           }, 1);
           setTimeout(() => {
-            this.rootRef.spinnerRef.style.display = 'none';
+            this.rootRef.spinnerRef.current?.setAttribute('style', 'display: none');
           }, 700);
         });
       })
@@ -118,7 +118,7 @@ class Root extends React.Component<{}, { roostate: rootState }> {
     });
   }
 
-  asyncDisplayFormRender = (data: any) => {
+  asyncDisplayFormRender = (data: rootState) => {
     return (
       <div>
         <Display displayprops={data.histCur[0]}/>
@@ -127,7 +127,7 @@ class Root extends React.Component<{}, { roostate: rootState }> {
     );
   }
 
-  asyncHistoryRender = (data: any) => {
+  asyncHistoryRender = (data: rootState["histCur"]) => {
     return (
       <div>
         <History histcur={data} reset={this.reset} />
@@ -138,7 +138,7 @@ class Root extends React.Component<{}, { roostate: rootState }> {
   render() {
     return (  
       <div>
-        <div ref={(e: any) => this.rootRef.spinnerRef = e} className={styles.Spinner}>
+        <div ref={this.rootRef.spinnerRef} className={styles.Spinner}>
           <Container fluid>
             <Row className="justify-content-center">
               <Col xs="auto" lg="auto" className="d-flex align-items-center">

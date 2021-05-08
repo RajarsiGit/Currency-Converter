@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createRef, RefObject } from 'react';
 import styles from './Form.module.css';
 import { Form, InputGroup, Button, Container, Row, Col, Modal } from 'react-bootstrap';
 
@@ -10,20 +10,26 @@ type FormState = {
 }
 
 type FormProps = {
-  process: any,
-  state: any
+  process: Function,
+  state: {
+    histCur: {
+      base: string,
+      target: string
+    }[],
+    amount: string
+  }
 }
 
 class AppForm extends React.Component<{formprops: FormProps}, {formstate: FormState, show: boolean}> {
   formRefs!: {
-    baseRef: any;
-    targetRef: any;
-    intButtonRef: any;
-    conButtonRef: any;
-    inputRef: any;
+    baseRef: RefObject<HTMLSelectElement>;
+    targetRef: RefObject<HTMLSelectElement>;
+    intButtonRef: RefObject<HTMLButtonElement>;
+    conButtonRef: RefObject<HTMLButtonElement>;
+    inputRef: RefObject<HTMLInputElement>;
   };
 
-  constructor(props: any) {
+  constructor(props: {formprops: FormProps}) {
     super(props);
     this.state = {
       formstate: {
@@ -36,11 +42,11 @@ class AppForm extends React.Component<{formprops: FormProps}, {formstate: FormSt
     };
 
     this.formRefs = {
-      baseRef: null,
-      targetRef: null,
-      intButtonRef: null,
-      conButtonRef: null,
-      inputRef: false
+      baseRef: createRef(),
+      targetRef: createRef(),
+      intButtonRef: createRef(),
+      conButtonRef: createRef(),
+      inputRef: createRef()
     }
   }
 
@@ -84,8 +90,11 @@ class AppForm extends React.Component<{formprops: FormProps}, {formstate: FormSt
         valid: this.state.formstate.valid
       }
     }, () => {
-      [this.formRefs.baseRef.value, this.formRefs.targetRef.value] = 
-      [this.formRefs.targetRef.value, this.formRefs.baseRef.value];
+      let baseVal = this.formRefs.baseRef.current?.getAttribute('value') || 'AED';
+      let targetVal = this.formRefs.targetRef.current?.getAttribute('value') || 'AED';
+      this.formRefs.baseRef.current?.setAttribute('value', targetVal);
+      this.formRefs.targetRef.current?.setAttribute('value', baseVal)
+
       if (this.state.formstate.valid) {
         this.props.formprops.process(this.state.formstate);
       } else {
@@ -94,50 +103,48 @@ class AppForm extends React.Component<{formprops: FormProps}, {formstate: FormSt
     });
   }
 
-  handleBlur = () => {
-    if (this.formRefs.inputRef.value) {
-      if (parseFloat(this.formRefs.inputRef.value)) {
-        this.formRefs.inputRef.value = this.formRefs.inputRef.value.includes('.')?
-        this.formRefs.inputRef.value : this.formRefs.inputRef.value.concat('.0000');
+  handleBlur = (event: { target: { value: string; }; }) => {
+    if (this.formRefs.inputRef.current?.value) {
+      if (/^([0-9])+(.)([0-9])+$/.test(this.formRefs.inputRef.current.value)) {
         this.setState({
           formstate: {
-            baseCur: this.formRefs.baseRef.value,
-            targetCur: this.formRefs.targetRef.value,
-            amount: this.formRefs.inputRef.value,
+            baseCur: this.formRefs.baseRef.current?.value || 'AED',
+            targetCur: this.formRefs.targetRef.current?.value || 'AED',
+            amount: this.formRefs.inputRef.current.value,
             valid: true
           }
         });
       } else {
         this.setState({
           formstate: {
-            baseCur: this.formRefs.baseRef.value,
-            targetCur: this.formRefs.targetRef.value,
-            amount: this.state.formstate.amount,
+            baseCur: this.formRefs.baseRef.current?.value || 'AED',
+            targetCur: this.formRefs.targetRef.current?.value || 'AED',
+            amount: this.formRefs.inputRef.current.value,
             valid: false
           }
         });
-        this.formRefs.inputRef.style.border = '2px solid red';
+        this.formRefs.inputRef.current.setAttribute('style', 'border: 2px solid red');
       }
     } else {
-      this.formRefs.inputRef.value = this.state.formstate.amount;
+      event.target.value = this.formRefs.inputRef.current?.getAttribute('value') || '1.0000' ;
     }
   }
 
-  handleFocus = () => {
-    this.formRefs.inputRef.value = '';
-    this.formRefs.inputRef.style.border = '';
+  handleFocus = (event: { target: { value: string; }; }) => {
+    event.target.value = '';
+    this.formRefs.inputRef.current?.setAttribute('style', 'border: 1px solid #007bff');
   }
 
   render() {
     return (
       <Container fluid>
-        <Modal show={this.state.show} onHide={(e: any) => {this.setState({ show: false })}}>
+        <Modal show={this.state.show} onHide={() => {this.setState({ show: false })}}>
           <Modal.Header closeButton>
             <Modal.Title>Warning!</Modal.Title>
           </Modal.Header>
           <Modal.Body>Please check your amount input!</Modal.Body>
           <Modal.Footer>
-            <Button variant="danger" onClick={(e: any) => {this.setState({ show: false })}}>
+            <Button variant="danger" onClick={() => {this.setState({ show: false })}}>
               Close
             </Button>
           </Modal.Footer>
@@ -155,7 +162,7 @@ class AppForm extends React.Component<{formprops: FormProps}, {formstate: FormSt
                 <Form.Control title="Enter Amount" as="input" placeholder="Enter amount" 
                 onBlur={this.handleBlur} onFocus={this.handleFocus} inputMode="numeric"
                 defaultValue={this.props.formprops.state.amount} className={"text-right " + styles.Input} 
-                ref={(e: any) => this.formRefs.inputRef = e}>
+                ref={this.formRefs.inputRef}>
                 </Form.Control>
               </InputGroup>
             </Form.Group>
@@ -168,7 +175,7 @@ class AppForm extends React.Component<{formprops: FormProps}, {formstate: FormSt
               <Col lg="12" xs="8">
                 <Form.Control title="Select Base Currency" as="select" 
                 onChange={this.handleChange} defaultValue={this.props.formprops.state.histCur[0].base.slice(-3)} 
-                ref={(e: any) => this.formRefs.baseRef = e} className={styles.Select}>
+                ref={this.formRefs.baseRef} className={styles.Select}>
                 <option value="AED">AED - United Arab Emirates Dirham</option>
                 <option value="AFN">AFN - Afghan Afghani</option>
                 <option value="ALL">ALL - Albanian Lek</option>
@@ -344,7 +351,7 @@ class AppForm extends React.Component<{formprops: FormProps}, {formstate: FormSt
           <Col xs="12" lg="2" className="d-flex align-items-center justify-content-center">
             <Button className={"mb-4 mt-2 " + styles.ExchangeButton}
             variant="outline-primary" title="Interchange" onClick={this.handleClick} 
-            ref={(e: any) => this.formRefs.intButtonRef = e}>
+            ref={this.formRefs.intButtonRef}>
               <i className="fas fa-exchange-alt"></i>
             </Button>
           </Col>
@@ -354,7 +361,7 @@ class AppForm extends React.Component<{formprops: FormProps}, {formstate: FormSt
               <Col lg="12" xs="8">
                 <Form.Control title="Select Target Currency" as="select" 
                 onChange={this.handleChange} defaultValue={this.props.formprops.state.histCur[0].target.slice(-3)} 
-                ref={(e: any) => this.formRefs.targetRef = e} className={styles.Select}>
+                ref={this.formRefs.targetRef} className={styles.Select}>
                   <option value="AED">AED - United Arab Emirates Dirham</option>
                   <option value="AFN">AFN - Afghan Afghani</option>
                   <option value="ALL">ALL - Albanian Lek</option>
@@ -531,7 +538,7 @@ class AppForm extends React.Component<{formprops: FormProps}, {formstate: FormSt
         <Row className="justify-content-md-center">
           <Col md="auto">
             <Button variant="primary" type="submit" title="Convert Now"
-            ref={(e: any) => this.formRefs.conButtonRef = e}>
+            ref={this.formRefs.conButtonRef}>
               &nbsp;Convert&nbsp;
             </Button>
           </Col>

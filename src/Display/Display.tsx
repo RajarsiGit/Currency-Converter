@@ -13,7 +13,7 @@ type displayState = {
 }
 
 class Display extends React.Component<{ displayprops: displayProps }, { displaystate: displayState }> {
-  constructor(props: any) {
+  constructor(props: { displayprops: displayProps; }) {
     super(props);
     this.state = {
       displaystate: {

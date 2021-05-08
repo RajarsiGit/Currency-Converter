@@ -7,8 +7,8 @@ type HistCur = {
   target: string
 }
 
-class History extends React.Component<{histcur: HistCur[], reset: any}, {}> {
-  constructor(props: any | Readonly<{}>) {
+class History extends React.Component<{ histcur: HistCur[], reset: Function }, {}> {
+  constructor(props: {histcur: HistCur[], reset: Function}) {
     super(props);
     this.state = {};
   }

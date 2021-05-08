@@ -5,7 +5,7 @@ import firebaseConfig from './firebaseConfig.json';
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-const addData = async (db: firebase.firestore.Firestore, document: any) => {
+const addData = async (db: firebase.firestore.Firestore, document: { base: string, target: string }) => {
     const userid = getID()? getID() : undefined;
     const docRef = db.collection('prev-conv').doc(userid).collection('data').doc();
     try {
@@ -23,7 +23,7 @@ const addData = async (db: firebase.firestore.Firestore, document: any) => {
 }
 
 const getData = async (db: firebase.firestore.Firestore): Promise<{base: string, target: string}[]> => {
-    let array: { base: any; target: any; }[] = [];
+    let array: { base: string; target: string; }[] = [];
     const userid = getID()? getID() : undefined;
     let colRef = db.collection('prev-conv').doc(userid).collection('data');
     if (getID()) {

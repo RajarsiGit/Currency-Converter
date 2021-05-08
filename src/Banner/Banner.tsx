@@ -1,21 +1,21 @@
-import React from 'react';
+import React, { createRef, RefObject } from 'react';
 import styles from './Banner.module.css';
 import { Container, Row, Col, Image, Carousel } from 'react-bootstrap'
 
 class Banner extends React.Component<{}, {}> {
   bannerRefs!: {
-    carItemRef1: any;
-    carItemRef2: any;
-    carItemRef3: any;
+    carItemRef1: RefObject<HTMLDivElement>;
+    carItemRef2: RefObject<HTMLDivElement>;
+    carItemRef3: RefObject<HTMLDivElement>;
   };
 
-  constructor(props: any) {
+  constructor(props: {}) {
     super(props);
 
     this.bannerRefs = {
-      carItemRef1: null,
-      carItemRef2: null,
-      carItemRef3: null,
+      carItemRef1: createRef(),
+      carItemRef2: createRef(),
+      carItemRef3: createRef(),
     }
   }
 
@@ -26,13 +26,13 @@ class Banner extends React.Component<{}, {}> {
           <Row className="justify-content-center">
             <Col xs="auto" lg="6" className="pt-3">
               <Carousel>
-                <Carousel.Item ref={(e: any) => this.bannerRefs.carItemRef1 = e}>
+                <Carousel.Item ref={this.bannerRefs.carItemRef1}>
                   <Image src="banner1.jpg" fluid />
                 </Carousel.Item>
-                <Carousel.Item ref={(e: any) => this.bannerRefs.carItemRef2 = e}>
+                <Carousel.Item ref={this.bannerRefs.carItemRef2}>
                   <Image src="banner2.jpg" fluid />
                 </Carousel.Item>
-                <Carousel.Item ref={(e: any) => this.bannerRefs.carItemRef3 = e}>
+                <Carousel.Item ref={this.bannerRefs.carItemRef3}>
                   <Image src="banner3.jpg" fluid />
                 </Carousel.Item>
               </Carousel>
