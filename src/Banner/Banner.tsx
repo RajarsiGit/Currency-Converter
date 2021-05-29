@@ -27,13 +27,13 @@ class Banner extends React.Component<{}, {}> {
             <Col xs="auto" lg="6" className="pt-3">
               <Carousel>
                 <Carousel.Item ref={this.bannerRefs.carItemRef1}>
-                  <Image src="banner1.jpg" fluid />
+                  <Image src="banner1.webp" alt="Banner 1" height="316" width="734" fluid />
                 </Carousel.Item>
                 <Carousel.Item ref={this.bannerRefs.carItemRef2}>
-                  <Image src="banner2.jpg" fluid />
+                  <Image src="banner2.webp" alt="Banner 2" height="316" width="734" fluid />
                 </Carousel.Item>
                 <Carousel.Item ref={this.bannerRefs.carItemRef3}>
-                  <Image src="banner3.jpg" fluid />
+                  <Image src="banner3.webp" alt="Banner 3" height="316" width="734" fluid />
                 </Carousel.Item>
               </Carousel>
             </Col>
