@@ -1,4 +1,6 @@
-.Form {}
+.Form {
+    display: block;
+}
 
 .ExchangeButton {
     padding: 0.44em 0.7em;
