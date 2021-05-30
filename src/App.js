@@ -1,13 +1,13 @@
-//import logo from './logo.svg';
-import './App.css';
-import Root  from './Root/Root';
+// import logo from './logo.svg'
+import './App.css'
+import Root from './Root/Root'
 
-function App() {
+function App () {
   return (
-    <div className="App">
-      <Root/>
+    <div className='App'>
+      <Root />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

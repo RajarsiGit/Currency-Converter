@@ -1,50 +1,50 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import { render, screen } from '@testing-library/react'
+import App from './App'
 
 test('Renders Ribbon', () => {
-  render(<App />);
+  render(<App />)
   expect(screen.getByText('Currency Converter Applicaton'))
-  .toBeInTheDocument();
-});
+    .toBeInTheDocument()
+})
 
 test('Renders Image Carousel', () => {
-  render(<App />);
+  render(<App />)
   expect(screen.getByText('Previous'))
-  .toBeInTheDocument();
+    .toBeInTheDocument()
   expect(screen.getByText('Next'))
-  .toBeInTheDocument();
-});
+    .toBeInTheDocument()
+})
 
 test('Renders Conveter Section Card', () => {
-  render(<App />);
+  render(<App />)
   expect(screen.getByText('Convert Your Currency Now'))
-  .toBeInTheDocument();
+    .toBeInTheDocument()
   expect(screen.getByText('Base Amount'))
-  .toBeInTheDocument();
+    .toBeInTheDocument()
   expect(screen.getByText('Base Cur.', { exact: true }))
-  .toBeInTheDocument();
+    .toBeInTheDocument()
   expect(screen.getByText('Target Cur.', { exact: true }))
-  .toBeInTheDocument();
+    .toBeInTheDocument()
   expect(screen.getByText('Convert'))
-  .toBeInTheDocument();
-});
+    .toBeInTheDocument()
+})
 
 test('Renders History Section Card', () => {
-  render(<App />);
+  render(<App />)
   expect(screen.getByText('Used Conversions'))
-  .toBeInTheDocument();
+    .toBeInTheDocument()
   expect(screen.getByText('#'))
-  .toBeInTheDocument();
+    .toBeInTheDocument()
   expect(screen.getByText('Base Currency'))
-  .toBeInTheDocument();
+    .toBeInTheDocument()
   expect(screen.getByText('Target Currency'))
-  .toBeInTheDocument();
-});
+    .toBeInTheDocument()
+})
 
 test('Renders Footer Section text', () => {
-  render(<App />);
+  render(<App />)
   expect(screen.getByText('Design by:'))
-  .toBeInTheDocument();
+    .toBeInTheDocument()
   expect(screen.getByText('Rajarsi Saha'))
-  .toBeInTheDocument();
-});
+    .toBeInTheDocument()
+})
