@@ -26,25 +26,25 @@
 
 @media screen and (max-width: 600px) {
   .Footer {
-      margin: 1.2em 0em 0em 0em;
-      padding: 0.8em 0em;
+      margin: 1.2em 0 0 0;
+      padding: 0.8em 0;
       height: 45px;
   }
 
   .FootertextDesignby {
       float: right;
   }
-  
+
   .FootertextName {
       color: #fff;
       float: left;
   }
-  
+
   .FootertextName a {
       text-decoration: none;
       transition: 0.1s;
   }
-  
+
   .FootertextName hover {
       transform: scale(1.05, 1.01);
   }
