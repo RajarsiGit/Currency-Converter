@@ -1,19 +1,19 @@
 .Root {
-    display: block;
+  display: block;
 }
 
 .Spinner {
-    background-color: rgba(255, 255, 255, 1.0);
-    position: fixed;
-    z-index: 10000;
-    width: 100%;
-    transition: all 0.5s ease-in-out;
-    -webkit-transition-delay: 0.4s;
-    -moz-transition-delay: 0.4s;
-    -o-transition-delay: 0.4s;
-    transition-delay: 0.4s;
+  background-color: rgba(255, 255, 255, 1.0);
+  position: fixed;
+  z-index: 10000;
+  width: 100%;
+  transition: all 0.5s ease-in-out;
+  -webkit-transition-delay: 0.4s;
+  -moz-transition-delay: 0.4s;
+  -o-transition-delay: 0.4s;
+  transition-delay: 0.4s;
 }
 
 .Spinner > * > * {
-    min-height: 100vh;
+  min-height: 100vh;
 }

@@ -1,42 +1,40 @@
 .Ribbon {
-    position: fixed;
-    height: 60px;
-    width: 100%;
-    z-index: 100;
-    background-color:#007bff;
-    -webkit-box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),
-                0 3px 6px 0 rgba(0,0,0,0.19);
-    -moz-box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),
-                0 3px 6px 0 rgba(0,0,0,0.19);
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),
-                0 3px 6px 0 rgba(0,0,0,0.19);
+  position: fixed;
+  height: 60px;
+  width: 100%;
+  z-index: 100;
+  background-color:#007bff;
+  -webkit-box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 3px 6px 0 rgba(0,0,0,0.19);
+  -moz-box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 3px 6px 0 rgba(0,0,0,0.19);
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 3px 6px 0 rgba(0,0,0,0.19);
 }
 
 .Ribbontext {
-    color: #fff;
-    font-size: x-large;
-    font-weight: 700;
-    text-align: left;
-    padding: 0.4em 0em 0.4em 1em;
+  color: #fff;
+  font-size: x-large;
+  font-weight: 700;
+  text-align: left;
+  padding: 0.4em 0em 0.4em 1em;
 }
 
 .Ribbonlogo {
-    float: right;
-    margin: 0.25em 1.5em;
-    height: 50px;
+  float: right;
+  margin: 0.25em 1.5em;
+  height: 50px;
 }
 
 @media screen and (max-width: 600px) {
-    .Ribbontext {
-        text-align: center;
-        padding: 0.45em 0em 0.45em 0em;
-    }
+  .Ribbontext {
+    text-align: center;
+    padding: 0.45em 0em 0.45em 0em;
+  }
 
-    .Ribbonlogo {
-        display: none;
-    }
+  .Ribbonlogo {
+    display: none;
+  }
 
-    .Ribbon div div:nth-child(2){
-        display: none;
-    }
+  .Ribbon div div:nth-child(2){
+    display: none;
+  }
+
 }
