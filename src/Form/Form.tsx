@@ -104,26 +104,25 @@ class AppForm extends React.Component<{formprops: FormProps}, {formstate: FormSt
     });
   }
 
+  setStateForHandleBlur = (valid: boolean) => {
+    if (this.formRefs.inputRef.current) {
+      this.setState({
+        formstate: {
+          baseCur: this.formRefs.baseRef.current?.value || 'AED',
+          targetCur: this.formRefs.targetRef.current?.value || 'AED',
+          amount: this.formRefs.inputRef.current.value,
+          valid: valid
+        }
+      });
+    }
+  }
+
   handleBlur = (event: { target: { value: string; }; }) => {
     if (this.formRefs.inputRef.current?.value) {
       if (/^([0-9])+(.)([0-9])+$/.test(this.formRefs.inputRef.current.value)) {
-        this.setState({
-          formstate: {
-            baseCur: this.formRefs.baseRef.current?.value || 'AED',
-            targetCur: this.formRefs.targetRef.current?.value || 'AED',
-            amount: this.formRefs.inputRef.current.value,
-            valid: true
-          }
-        });
+        this.setStateForHandleBlur(true);
       } else {
-        this.setState({
-          formstate: {
-            baseCur: this.formRefs.baseRef.current?.value || 'AED',
-            targetCur: this.formRefs.targetRef.current?.value || 'AED',
-            amount: this.formRefs.inputRef.current.value,
-            valid: false
-          }
-        });
+        this.setStateForHandleBlur(false);
         this.formRefs.inputRef.current.setAttribute('style', 'border: 2px solid red');
       }
     } else {
