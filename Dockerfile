@@ -9,11 +9,7 @@ COPY public ./public
 
 COPY src ./src
 
-RUN npm install
-
-RUN npm install -g serve
-
-RUN npm run build
+RUN npm install && npm install -g serve@12.0.0 && npm run build
 
 # replace this with your application's default port
 EXPOSE 5000
